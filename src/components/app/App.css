@@ -46,3 +46,32 @@
 
 /* Question & Answers CSS */
 
+ul.answers {
+  list-style: none;
+  text-align: left;
+  display: block;
+}
+
+ul.answers li {
+  border: 1px solid;
+  margin-bottom: 4px;
+  padding: 5px;
+}
+
+ul.answers li:hover {
+  background: #62dafb;
+  cursor: pointer;
+}
+
+ul.answers li.disabled:hover {
+  background: #282c34;
+  cursor: not-allowed;
+}
+
+ul.answers li.correct {
+  background-color: #7fffd4;
+}
+
+ul.answers li.incorrect {
+  background-color: #c75a5a;
+}

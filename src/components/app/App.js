@@ -1,35 +1,16 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { escapeHTML, mergeShuffleAnswers } from '../../utils';
-
-const Question = props => {
-  const question = escapeHTML(props.question.question);
-  const answers = mergeShuffleAnswers(props.question.correct_answer, props.question.incorrect_answers);
-  return (<div>
-    <p>{question}</p>
-
-    <ul>
-      {answers.map((a, i) => <Answer key={i} answer={a} />)}
-    </ul>
-
-    <button className="App-button" onClick={props.nextQuestion}>next</button>
-  </div>);
-}
-
-const Answer = props => {
-  return (
-    <li>{props.answer}</li>
-  )
-}
+import Question from '../question/question'
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { started: false, questions: [], loaded: false, nextQuestion: 0 };
+    this.state = { started: false, questions: [], loaded: false, current: 0, score: 0 };
     this.startQuiz = this.startQuiz.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.checkAnswer = this.checkAnswer.bind(this);
   }
 
   startQuiz() {
@@ -37,29 +18,42 @@ class App extends React.Component {
   }
 
   nextQuestion() {
-    this.setState(prevState => ({ nextQuestion: prevState.nextQuestion + 1 }));
+    this.setState(prevState => ({ current: prevState.current + 1 }));
   }
 
-  renderQuestion() {
-    const { questions, nextQuestion } = this.state;
-    if (nextQuestion < questions.length) {
-      const question = questions[nextQuestion];
-      return <Question question={question} nextQuestion={this.nextQuestion} />;
-    } else {
-      return <div>End</div>;
+  checkAnswer(answer) {
+    const { questions, current } = this.state;
+    const question = questions[current];
+    if (answer === question.correct_answer) {
+      this.setState(prevState => ({ score: prevState.score + 1 }));
+      return true;
     }
+    return false;
+  }
 
+printScore = () => (<div>{this.state.questions.length === this.state.current && <span>Final </span>}Score: {this.state.score} / {this.state.questions.length}</div>);
+
+  renderQuestion() {
+    const { questions, current } = this.state;
+    if (current < questions.length) {
+      const question = questions[current];
+      return <Question question={question} nextQuestion={this.nextQuestion} checkAnswer={this.checkAnswer} printScore={this.printScore} />;
+    } else{
+      return this.printScore();
+    }
   }
 
   getQuiz() {
     return !this.state.started ?
       (
         <button onClick={this.startQuiz} className="App-button" disabled={!this.state.loaded}>
-          {this.state.loaded ? 'Start' : 'loading'}
+          {this.state.loaded ? 'Start' : 'loading...'}
         </button>
       )
       :
-      (this.renderQuestion());
+      (<div>
+        {this.renderQuestion()}
+      </div>);
   }
 
   render() {
@@ -71,6 +65,15 @@ class App extends React.Component {
         </header >
       </div >
     )
+  }
+
+  shouldComponentUpdate(nextProps, nextState) { 
+    console.log(nextState);
+    console.log(this.state);
+    if ((nextState.current === 0 && nextState.score === 0)|| nextState.current > this.state.current) { 
+      return true;
+    }
+    return false;
   }
 
   componentDidMount() {
