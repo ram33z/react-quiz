@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Question from '../question/question'
+import { escapeHTML, mergeShuffleAnswers } from '../../utils';
 
 class App extends React.Component {
 
@@ -84,7 +85,14 @@ printScore = () => (<div>{this.state.questions.length === this.state.current && 
         }
         throw new Error('Request failed!');
       }, networkError => console.log(networkError.message))
-      .then(jsonResponse => this.setState({ questions: jsonResponse.results, loaded: true }))
+      .then(jsonResponse =>{ 
+        const questions = jsonResponse.results.map(q => {
+          q.question = escapeHTML(q.question);
+          q.answers = mergeShuffleAnswers(q.correct_answer, q.incorrect_answers);
+          return q;
+        });
+        this.setState({ questions, loaded: true });
+      })
   }
 
 }

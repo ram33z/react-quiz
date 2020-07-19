@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { escapeHTML, mergeShuffleAnswers } from '../../utils';
-
 const Answer = props => {
 
     function answerClick(e) {
@@ -40,8 +38,8 @@ class Question extends Component {
     }
 
     loadNewQuestion(props) {
-        this.question = escapeHTML(props.question.question);
-        this.answers = mergeShuffleAnswers(props.question.correct_answer, props.question.incorrect_answers);
+        this.question = props.question.question;
+        this.answers = props.question.answers;
     }
 
     render() {
