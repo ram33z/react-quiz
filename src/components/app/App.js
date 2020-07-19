@@ -12,6 +12,30 @@ class App extends React.Component {
     this.startQuiz = this.startQuiz.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
+    this.restart = this.restart.bind(this);
+  }
+
+  loadApp() {
+    fetch('https://opentdb.com/api.php?amount=10&type=multiple')
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Request failed!');
+      }, networkError => console.log(networkError.message))
+      .then(jsonResponse => {
+        const questions = jsonResponse.results.map(q => {
+          q.question = escapeHTML(q.question);
+          q.answers = mergeShuffleAnswers(q.correct_answer, q.incorrect_answers);
+          return q;
+        });
+        this.setState({ questions, loaded: true });
+      })
+  }
+
+  restart() {
+    this.setState({ started: false, loaded: false, current: 0, score: 0 });
+    this.loadApp();
   }
 
   startQuiz() {
@@ -32,14 +56,22 @@ class App extends React.Component {
     return false;
   }
 
-printScore = () => (<div>{this.state.questions.length === this.state.current && <span>Final </span>}Score: {this.state.score} / {this.state.questions.length}</div>);
+  printScore = () => {
+    const isfinished = this.state.questions.length === this.state.current;
+
+    return (<div>
+      {isfinished && <span>Final </span>}Score: {this.state.score} / {this.state.questions.length}
+      <br />
+      {isfinished && <button className="App-button" onClick={this.restart}>Restart</button>}
+    </div>);
+  };
 
   renderQuestion() {
     const { questions, current } = this.state;
     if (current < questions.length) {
       const question = questions[current];
       return <Question question={question} nextQuestion={this.nextQuestion} checkAnswer={this.checkAnswer} printScore={this.printScore} />;
-    } else{
+    } else {
       return this.printScore();
     }
   }
@@ -68,31 +100,17 @@ printScore = () => (<div>{this.state.questions.length === this.state.current && 
     )
   }
 
-  shouldComponentUpdate(nextProps, nextState) { 
+  shouldComponentUpdate(nextProps, nextState) {
     console.log(nextState);
     console.log(this.state);
-    if ((nextState.current === 0 && nextState.score === 0)|| nextState.current > this.state.current) { 
+    if ((nextState.current === 0 && nextState.score === 0) || nextState.current > this.state.current) {
       return true;
     }
     return false;
   }
 
   componentDidMount() {
-    fetch('https://opentdb.com/api.php?amount=10&type=multiple')
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error('Request failed!');
-      }, networkError => console.log(networkError.message))
-      .then(jsonResponse =>{ 
-        const questions = jsonResponse.results.map(q => {
-          q.question = escapeHTML(q.question);
-          q.answers = mergeShuffleAnswers(q.correct_answer, q.incorrect_answers);
-          return q;
-        });
-        this.setState({ questions, loaded: true });
-      })
+    this.loadApp();
   }
 
 }
