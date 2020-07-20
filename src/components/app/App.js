@@ -99,7 +99,7 @@ class App extends React.Component {
           {this.getQuiz()}
         </header >
         <footer>
-          <cite>find me o twitter <a className='App-link' href={'https://twitter.com/rameezjoya'} target={'_blank'}>@rameezjoya</a></cite>
+          <cite>find me o twitter <a className='App-link' href={'https://twitter.com/rameezjoya'} target='_blank' rel='noopener noreferrer'>@rameezjoya</a></cite>
         </footer>
       </div >
     )
