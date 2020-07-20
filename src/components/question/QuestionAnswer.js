@@ -35,7 +35,6 @@ class Question extends Component {
 
     render() {
 
-
         return (<div>
             {this.props.printScore()}
             <p>{this.props.index+1}) {this.props.question.question}</p>

@@ -11,7 +11,6 @@ function shuffle(array) {
   
       // swap elements array[i] and array[j]
       // we use "destructuring assignment" syntax to achieve that
-      // you'll find more details about that syntax in later chapters
       // same can be written as:
       // let t = array[i]; array[i] = array[j]; array[j] = t
       [array[i], array[j]] = [array[j], array[i]];
