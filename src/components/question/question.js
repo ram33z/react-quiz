@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Question.css';
 
 const Answer = props => {
 
@@ -39,11 +40,16 @@ class Question extends Component {
             {this.props.printScore()}
             <p>{this.props.index+1}) {this.props.question.question}</p>
 
-            <ul className="answers">
+            <ul className={!this.state.answered ? 'answers unanswered' : 'answers'}>
                 {this.props.question.answers.map((a, i) => <Answer key={i}
                     answer={a}
                     clicked={!this.state.answered ? this.answerClick : ''}
-                    className={this.state.answered ? this.state.answer === a ? this.state.isCorrect ? 'correct' : 'incorrect' : 'disabled' : ''}
+                    className={
+                        this.state.answered ? 
+                            this.state.answer === a ? 
+                                this.state.isCorrect ? 'correct disabled' : 'incorrect disabled' 
+                            : this.props.question.correct_answer === a ? 'correct-dim disabled' : 'disabled' 
+                        : ''}
                 />)}
             </ul>
             <br />

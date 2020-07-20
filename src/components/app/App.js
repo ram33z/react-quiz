@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Question from '../question/question'
+import Question from '../question/Question'
 import { escapeHTML, mergeShuffleAnswers } from '../../utils';
 
 class App extends React.Component {

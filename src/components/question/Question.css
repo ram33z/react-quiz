@@ -1,0 +1,40 @@
+/* Question & Answers CSS */
+ul.answers {
+    list-style: none;
+    text-align: left;
+    display: block;
+  }
+  
+  ul.answers li {
+    border: 1px solid;
+    margin-bottom: 4px;
+    padding: 5px;
+  }
+  
+  ul.answers.unanswered li:hover {
+    background: #62dafb;
+    cursor: pointer;
+  }
+  
+  ul.answers li.disabled {
+    background: #282c34;
+  }
+  
+  ul.answers li.correct {
+    background-color: #7fffd4;
+  }
+  
+  ul.answers li.correct-dim {
+    background-color: #69b99e;
+  }
+  
+  ul.answers li.incorrect {
+    background-color: #c75a5a;
+  }
+  
+  ul.answers li.disabled, ul.answers li.disabled:hover,
+  ul.answers li.correct, ul.answers li.correct:hover,
+  ul.answers li.correct-dim, ul.answers li.correct-dim:hover,
+  ul.answers li.incorrect, ul.answers li.incorrect:hover {
+    cursor: not-allowed;
+  }
