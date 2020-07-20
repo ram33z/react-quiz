@@ -101,8 +101,6 @@ class App extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log(nextState);
-    console.log(this.state);
     if ((nextState.current === 0 && nextState.score === 0) || nextState.current > this.state.current) {
       return true;
     }

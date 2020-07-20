@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 const Answer = props => {
 
     function answerClick(e) {
-        console.log(typeof props.clicked);
         if (typeof props.clicked !== 'string') {
-            console.log(e.target.innerText);
             props.clicked(e.target.innerText);
         }
     }
@@ -25,7 +23,6 @@ class Question extends Component {
 
     answerClick(answer) {
         if (!this.state.answered) {
-            console.log('me;');
             let isCorrect = this.props.checkAnswer(answer);
             this.setState({ answered: true, isCorrect, answer });
         }
