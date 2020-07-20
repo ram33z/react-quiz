@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Question.css';
+import './QuestionAnswer.css';
 
 const Answer = props => {
 
