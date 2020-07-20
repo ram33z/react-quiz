@@ -93,9 +93,14 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
+          <h2 style={{color:'#62dafb'}}>Quiz App</h2>
+          <cite>(Using React & Open Trivia API)</cite>
           <img src={logo} className="App-logo" alt="logo" />
           {this.getQuiz()}
         </header >
+        <footer>
+          <cite>find me o twitter <a className='App-link' href={'https://twitter.com/rameezjoya'} target={'_blank'}>@rameezjoya</a></cite>
+        </footer>
       </div >
     )
   }

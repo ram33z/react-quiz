@@ -43,3 +43,15 @@
     transform: rotate(360deg);
   }
 }
+
+cite{
+  font-size: 14px;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+}
