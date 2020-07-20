@@ -70,7 +70,7 @@ class App extends React.Component {
     const { questions, current } = this.state;
     if (current < questions.length) {
       const question = questions[current];
-      return <Question question={question} nextQuestion={this.nextQuestion} checkAnswer={this.checkAnswer} printScore={this.printScore} />;
+      return <Question question={question} index={current} nextQuestion={this.nextQuestion} checkAnswer={this.checkAnswer} printScore={this.printScore} />;
     } else {
       return this.printScore();
     }

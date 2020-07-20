@@ -21,7 +21,6 @@ class Question extends Component {
         super(props);
         this.state = { answered: false, isCorrect: false, answer: '' };
         this.answerClick = this.answerClick.bind(this);
-        this.loadNewQuestion(props);
     }
 
     answerClick(answer) {
@@ -33,13 +32,7 @@ class Question extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        this.loadNewQuestion(newProps);
         this.setState({ answered: false, isCorrect: false, answer: '' });
-    }
-
-    loadNewQuestion(props) {
-        this.question = props.question.question;
-        this.answers = props.question.answers;
     }
 
     render() {
@@ -47,18 +40,18 @@ class Question extends Component {
 
         return (<div>
             {this.props.printScore()}
-            <p>{this.question}</p>
+            <p>{this.props.index+1}) {this.props.question.question}</p>
 
             <ul className="answers">
-                {this.answers.map((a, i) => <Answer key={i}
+                {this.props.question.answers.map((a, i) => <Answer key={i}
                     answer={a}
                     clicked={!this.state.answered ? this.answerClick : ''}
                     className={this.state.answered ? this.state.answer === a ? this.state.isCorrect ? 'correct' : 'incorrect' : 'disabled' : ''}
                 />)}
             </ul>
-            <br/>
-            {this.state.answered ? <button className="App-button" onClick={this.props.nextQuestion}>next</button> : <br/>}
-            
+            <br />
+            {this.state.answered ? <button className="App-button" onClick={this.props.nextQuestion}>next</button> : <br />}
+
         </div>);
     }
 }
